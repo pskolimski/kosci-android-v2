@@ -7,7 +7,6 @@ import android.widget.ListView;
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class ResultActivity extends AppCompatActivity {
@@ -16,15 +15,17 @@ public class ResultActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_result);
+        AccountSystem accountSystem = new AccountSystem(this);
 
         Intent intent = getIntent();
-        String nickName = intent.getStringExtra("nickName");
+        String nickname = intent.getStringExtra("nickName");
         String date = intent.getStringExtra("date");
         String points = intent.getStringExtra("points");
 
+        accountSystem.addResult(nickname, date, Integer.parseInt(points));
+
         ListView listView = findViewById(R.id.resultListView);
-        List<ResultItem> resultList = new ArrayList<>();
-        resultList.add(new ResultItem(nickName, date, points));
+        List<ResultItem> resultList = accountSystem.getAllResults();
 
         ResultAdapter adapter = new ResultAdapter(this, resultList);
         listView.setAdapter(adapter);
